@@ -33,7 +33,9 @@ def predict():
         output = "Not sure"
         
 
-    return render_template('index.html', prediction_text='This user will buy from social network advertisement :: {}'.format(output))
+    # return rende_template('index.html', prediction_text='This user will buy from social network advertisement :: {}'.format(output))
+    # return jsonify({'prediction': int(prediction[0])})
+    return jsonify({'prediction': output})
 
 
 if __name__ == "__main__":
