@@ -1,22 +1,29 @@
-# Use the official slim Python image from the Docker Hub
+# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
+# Copy the requirements file into the container at /app
 COPY requirements.txt .
 
 # Install the dependencies
-# Install numpy first to satisfy scikit-learn dependency
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    gfortran \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir numpy \
+    && pip install --no-cache-dir scipy \
     && pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code into the container
+# Copy the rest of the application code
 COPY . .
-
-# Set the environment variable for Flask
-ENV FLASK_APP=app.py
 
 # Command to run the Flask application
 CMD ["python", "app.py"]
+
+# Expose port 5000 to the outside world
+EXPOSE 5000
