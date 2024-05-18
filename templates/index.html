@@ -17,11 +17,11 @@
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="salary" placeholder="salary" required="required" />
-		<input type="text" name="age" placeholder="age" required="required" />
-		<input type="text" name="male" placeholder="male" required="required" /> 
+    	<input type="text" name="male" placeholder="Male/Female - 1/0" required="required" />
+      <input type="text" name="age" placeholder="age" required="required" />
+      <input type="text" name="salary" placeholder="salary" required="required" /> 
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+      <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
 
    <br>
