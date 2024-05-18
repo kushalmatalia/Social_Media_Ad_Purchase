@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the requirements file into the container at /app
 COPY requirements.txt .
 
-# Install the dependencies
+# Install system dependencies and Python build dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
@@ -15,9 +15,11 @@ RUN apt-get update && \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir numpy \
-    && pip install --no-cache-dir scipy \
-    && pip install --no-cache-dir -r requirements.txt
+# Install numpy, scipy, and Cython first to ensure scikit-learn can be built
+RUN pip install --no-cache-dir numpy scipy Cython
+
+# Install the remaining dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
